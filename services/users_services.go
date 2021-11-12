@@ -8,13 +8,13 @@ import (
 )
 
 /*variable called UsersService of type usersServiceInterface being an instrance if userService.
-This way you can mock whatever you want. Because now you can mock how the GetUser actually works because GetUser isnt a packaged function but a method on a strukt implemented through interface. */
+This way you can mock whatever you want. Because now you can mock how the GetUser actually works because GetUser isnt a packaged function but a method on a strukt implemented through interface.
+every time you work irl youre not going to work with concrete struct but with interface implementing struct. video 18 20:00*/
 var (
 	UsersService usersServiceInterface = &usersService{}
 )
 
-type usersService struct {
-}
+type usersService struct{}
 type usersServiceInterface interface {
 	GetUser(int64) (*users.User, *errors.RestErr)
 	CreateUser(users.User) (*users.User, *errors.RestErr)
