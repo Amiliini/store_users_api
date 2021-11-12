@@ -7,11 +7,20 @@ import (
 	"kauppa/utils/errors"
 )
 
+/*variable called UsersService of type usersServiceInterface being an instrance if userService.
+This way you can mock whatever you want. Because now you can mock how the GetUser actually works because GetUser isnt a packaged function but a method on a strukt implemented through interface. */
 var (
-	UsersService usersService = usersService{}
+	UsersService usersServiceInterface = &usersService{}
 )
 
 type usersService struct {
+}
+type usersServiceInterface interface {
+	GetUser(int64) (*users.User, *errors.RestErr)
+	CreateUser(users.User) (*users.User, *errors.RestErr)
+	UpdateUser(bool, users.User) (*users.User, *errors.RestErr)
+	DeleteUser(int64) *errors.RestErr
+	SearchUser(string) (users.Users, *errors.RestErr)
 }
 
 func (s *usersService) GetUser(userId int64) (*users.User, *errors.RestErr) {
@@ -70,7 +79,7 @@ func (s *usersService) DeleteUser(userId int64) *errors.RestErr {
 	return user.Delete()
 }
 
-func (s *usersService) Search(status string) (users.Users, *errors.RestErr) {
+func (s *usersService) SearchUser(status string) (users.Users, *errors.RestErr) {
 	dao := &users.User{}
 	return dao.FindByStatus(status)
 }
